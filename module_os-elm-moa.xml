@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_os-elm-moa" default="compile.module.os-elm-moa">
+    <dirname property="module.os-elm-moa.basedir" file="${ant.file.module_os-elm-moa}"/>
+
+    <property name="module.jdk.home.os-elm-moa" value="${project.jdk.home}"/>
+    <property name="module.jdk.bin.os-elm-moa" value="${project.jdk.bin}"/>
+    <property name="module.jdk.classpath.os-elm-moa" value="${project.jdk.classpath}"/>
+
+    <property name="compiler.args.os-elm-moa" value="-encoding UTF-8 -source 11 -target 11 ${compiler.args}"/>
+
+    <property name="os-elm-moa.output.dir" value="${module.os-elm-moa.basedir}/out/production/OS-ELM-MOA"/>
+    <property name="os-elm-moa.testoutput.dir" value="${module.os-elm-moa.basedir}/out/test/OS-ELM-MOA"/>
+
+    <path id="os-elm-moa.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="os-elm-moa.module.production.classpath">
+        <path refid="${module.jdk.classpath.os-elm-moa}"/>
+        <path refid="library.moa-2018.6.0-sources.classpath"/>
+        <path refid="library.lib.classpath"/>
+    </path>
+
+    <path id="os-elm-moa.runtime.production.module.classpath">
+        <pathelement location="${os-elm-moa.output.dir}"/>
+        <path refid="library.moa-2018.6.0-sources.classpath"/>
+        <path refid="library.lib.classpath"/>
+    </path>
+
+    <path id="os-elm-moa.module.classpath">
+        <path refid="${module.jdk.classpath.os-elm-moa}"/>
+        <pathelement location="${os-elm-moa.output.dir}"/>
+        <path refid="library.moa-2018.6.0-sources.classpath"/>
+        <path refid="library.lib.classpath"/>
+    </path>
+
+    <path id="os-elm-moa.runtime.module.classpath">
+        <pathelement location="${os-elm-moa.testoutput.dir}"/>
+        <pathelement location="${os-elm-moa.output.dir}"/>
+        <path refid="library.moa-2018.6.0-sources.classpath"/>
+        <path refid="library.lib.classpath"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.os-elm-moa">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.os-elm-moa">
+        <patternset refid="excluded.from.module.os-elm-moa"/>
+    </patternset>
+
+    <path id="os-elm-moa.module.sourcepath">
+        <dirset dir="${module.os-elm-moa.basedir}">
+            <include name="src"/>
+        </dirset>
+    </path>
+
+
+    <target name="compile.module.os-elm-moa"
+            depends="compile.module.os-elm-moa.production,compile.module.os-elm-moa.tests"
+            description="Compile module OS-ELM-MOA"/>
+
+    <target name="compile.module.os-elm-moa.production" depends="register.custom.compilers"
+            description="Compile module OS-ELM-MOA; production classes">
+        <mkdir dir="${os-elm-moa.output.dir}"/>
+        <javac2 destdir="${os-elm-moa.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
+                memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.os-elm-moa}/javac">
+            <compilerarg line="${compiler.args.os-elm-moa}"/>
+            <bootclasspath refid="os-elm-moa.module.bootclasspath"/>
+            <classpath refid="os-elm-moa.module.production.classpath"/>
+            <src refid="os-elm-moa.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.os-elm-moa"/>
+        </javac2>
+
+        <copy todir="${os-elm-moa.output.dir}">
+            <fileset dir="${module.os-elm-moa.basedir}/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.module.os-elm-moa.tests"
+            depends="register.custom.compilers,compile.module.os-elm-moa.production"
+            description="compile module OS-ELM-MOA; test classes" unless="skip.tests"/>
+
+    <target name="clean.module.os-elm-moa" description="cleanup module">
+        <delete dir="${os-elm-moa.output.dir}"/>
+        <delete dir="${os-elm-moa.testoutput.dir}"/>
+    </target>
+</project>
