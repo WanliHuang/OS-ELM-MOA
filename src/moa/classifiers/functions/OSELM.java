@@ -1,7 +1,7 @@
 /*
  *    OSELM.java
- *    Copyright (C) 2019 University of Waikato, Hamilton, New Zealand
- *    @author Wanli Huang (wanli.huang@gmail.com )
+ *    Copyright (C) 2019 Wanli Huang
+ *    @author Wanli Huang
  *
  *    This program is free software; you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
